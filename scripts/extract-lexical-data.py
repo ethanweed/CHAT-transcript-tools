@@ -20,8 +20,8 @@ mot_tokens = []
 chi_tokens = []
 
 
-pathin = 'PATH'
-pathout = 'PATH'
+pathin = 'PATH/transcripts'
+pathout = 'PATH/output-folder'
 
 cd(pathin)
 
