@@ -1,9 +1,10 @@
 import os
 import glob
-from string import punctuation as p
 
-pathin = '/Users/ethan/Dropbox/Research/Projects/Projects_current/uconn/text_processing/raw_cohorts_2_3/'
-pathout = '/Users/ethan/Dropbox/Research/Projects/Projects_current/uconn/text_processing/POS-Letty/'
+pathin = '/path/to/data/'
+pathout = '/path/to/output/folder'
+
+
 
 os.chdir(pathin)
 
@@ -18,7 +19,6 @@ for file in glob.glob('*.txt'):
                 text = text.replace(item, '')
             text = text.split('@')
 
-            #print(text)
 
             for line in text:
                 if line.startswith('Participants:'):
@@ -31,6 +31,7 @@ for file in glob.glob('*.txt'):
                         v2 = v1.replace('\n', '')
                         p1.append(v2[0:3])
             people = p1
+
 
         with open(file,'r') as f:
             text = f.read()
@@ -47,6 +48,7 @@ for file in glob.glob('*.txt'):
                     trans.append(line)
 
         grouped = [trans[n:n+2] for n in range(0, len(trans), 2)]
+
 
         p = '.!?'
 
@@ -103,19 +105,39 @@ for file in glob.glob('*.txt'):
                 p = pss[j]
                 w = wds[j]
                 temp = num + ',' + speaker + ',' + w + ',' + p + '\n'
-                lines.append(temp)      
+                lines.append(temp)  
 
-        header = 'Turn,' + 'Speaker,' + 'Word' + 'POS' + '\n'
-        data = ''.join(lines)
+
+        lines2 = []
+        sep = '-~&'
+        for i in lines:
+            s = i.split(',')
+            w1 = s[2]
+            for c in sep:
+                w1 = w1.replace(c, '$')
+            w1 = w1.split('$')
+            w1 = w1[0]
+            num = s[0]
+            speaker = s[1]
+            word = w1
+            wordplus = s[2]
+            pos = s[3]
+            temp = num + ',' + speaker + ',' + word + ',' + wordplus + ',' + pos
+            lines2.append(temp)
+
+
+
+
+        header = 'Turn,' + 'Speaker,' + 'Word,' + 'WordPlus,' + 'POS' + '\n'
+        data = ''.join(lines2)
         output = header + data
+
 
         filename = pathout + file[:-4] + '.csv'
         with open(filename, 'a+') as newfile:
             newfile.write(output)
             newfile.close()
-        #print('Done with ' + file)
     except Exception as e:
         print(str(e) + ' in ' + file)
         
 print('All done!')
-
