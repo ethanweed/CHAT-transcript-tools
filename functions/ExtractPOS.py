@@ -14,7 +14,7 @@ def POS (pathin, file):
 		text = f.read()
 		for item in removelist:
 			text = text.replace(item, '')
-			text = text.split('@')
+		text = text.split('@')
 
 		#print(text)
     
@@ -34,7 +34,7 @@ def POS (pathin, file):
 		text = f.read()
 		for item in removelist:
 			text = text.replace(item, '')
-			text = text.split('\n')
+		text = text.split('\n')
 
 		trans = []
 		for line in text:
@@ -82,12 +82,11 @@ def POS (pathin, file):
 		for n in m:
 			temp = n.split('|')
 			p.append(temp[0])
-			w.append(temp[1])
+			#w.append(temp[1])
 		turn.append(t)
 		speaker.append(s)
 		pss.append(p)
 		wds.append(w) 
-
 	pw = list(zip(turn,speaker,pss,wds))
 	print(pw)
 
@@ -101,6 +100,7 @@ def POS (pathin, file):
 			p = pss[j]
 			w = wds[j]
 			temp = num + ',' + speaker + ',' + w + ',' + p + '\n'
+			temp = num + ',' + speaker + ',' + p + '\n'
 			lines.append(temp)      
 
 	header = 'Turn,' + 'Speaker,' + 'Word' + 'POS' + '\n'
